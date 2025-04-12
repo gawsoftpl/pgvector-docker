@@ -26,3 +26,12 @@ RUN apt-get update && \
 		apt-get autoremove -y && \
 		apt-mark unhold locales && \
 		rm -rf /var/lib/apt/lists/*
+
+RUN groupadd -g 1001 appgroup && \
+    useradd -m -u 1001 -g appgroup appuser
+
+# Ensure proper permissions
+RUN chown -R 1001:1001 /opt/bitnami /bitnami /usr/share/doc/pgvector || true
+
+# Switch to user 1001
+USER 1001
